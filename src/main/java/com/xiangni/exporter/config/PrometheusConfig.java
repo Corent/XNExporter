@@ -1,6 +1,7 @@
 package com.xiangni.exporter.config;
 
 import com.codahale.metrics.MetricRegistry;
+import com.xiangni.exporter.collector.XNCollector;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import io.prometheus.client.dropwizard.DropwizardExports;
@@ -35,7 +36,9 @@ public class PrometheusConfig {
         MetricRegistry dropwizardRegistry = new MetricRegistry();
         Counter counter = Counter.build().name("xiangni_counter").help("Total requests.").register(prometheusRegistry);
         DropwizardExports prometheus = new DropwizardExports(dropwizardRegistry);
+        XNCollector xnCollector = new XNCollector();
         prometheus.register(prometheusRegistry);
+        xnCollector.register(prometheusRegistry);
 
         PushGateway prometheusPush = new PushGateway(pushHost);
 
@@ -43,6 +46,7 @@ public class PrometheusConfig {
             try {
                 counter.inc();
                 prometheus.collect();
+                xnCollector.collect();
                 prometheusPush.push(prometheusRegistry, applicationName);
             } catch (Exception e) {
                 e.printStackTrace();
