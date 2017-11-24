@@ -7,7 +7,6 @@ import io.prometheus.client.Counter;
 import io.prometheus.client.dropwizard.DropwizardExports;
 import io.prometheus.client.exporter.PushGateway;
 import io.prometheus.client.hotspot.DefaultExports;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

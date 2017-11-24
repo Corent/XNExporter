@@ -1,11 +1,13 @@
 package com.xiangni.exporter.controller;
 
+import com.xiangni.exporter.common.Constants;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
 import io.prometheus.client.Summary;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
@@ -37,5 +39,11 @@ public class ExporterController {
         histogramTimer.observeDuration();*/
 
         return builder.toString();
+    }
+
+    @RequestMapping(value = "/set", method = { RequestMethod.GET })
+    public String reset(@RequestParam(defaultValue = "0") int num) {
+        Constants.setNum(num);
+        return String.valueOf(num);
     }
 }

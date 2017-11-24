@@ -1,5 +1,6 @@
 package com.xiangni.exporter.collector;
 
+import com.xiangni.exporter.common.Constants;
 import io.prometheus.client.Collector;
 import io.prometheus.client.GaugeMetricFamily;
 
@@ -15,7 +16,8 @@ public class XNCollector extends Collector {
     public List<MetricFamilySamples> collect() {
         List<MetricFamilySamples> mfs = new ArrayList<MetricFamilySamples>();
 
-        mfs.add(new GaugeMetricFamily("xiangni_gauge", "help", random.nextInt(100)));// With no labels.
+        int num = Constants.getNum();
+        mfs.add(new GaugeMetricFamily("xiangni_gauge", "help", num));// With no labels.
 
         GaugeMetricFamily labeledGauge = new GaugeMetricFamily("xiangni_other_gauge", "help", Arrays.asList("labelname"));// With labels
         labeledGauge.addMetric(Arrays.asList("foo"), random.nextInt(10));
