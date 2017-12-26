@@ -7,8 +7,11 @@ import io.prometheus.client.Counter;
 import io.prometheus.client.dropwizard.DropwizardExports;
 import io.prometheus.client.exporter.PushGateway;
 import io.prometheus.client.hotspot.DefaultExports;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.Executors;
@@ -28,6 +31,8 @@ public class PrometheusConfig {
 
     private final CollectorRegistry prometheusRegistry = new CollectorRegistry();
 
+    private static final Logger logger = LoggerFactory.getLogger(PrometheusConfig.class);
+
     @PostConstruct
     public void initialize() {
 
@@ -46,7 +51,8 @@ public class PrometheusConfig {
                 counter.inc();
                 prometheus.collect();
                 xnCollector.collect();
-                prometheusPush.push(prometheusRegistry, applicationName);
+                if (StringUtils.isEmpty(pushHost)) logger.info("prometheus.pushgateway.host is null");
+                else prometheusPush.push(prometheusRegistry, applicationName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
