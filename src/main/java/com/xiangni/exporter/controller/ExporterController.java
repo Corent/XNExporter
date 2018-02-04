@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -35,6 +36,7 @@ public class ExporterController {
 
         StringBuilder builder = new StringBuilder();
         builder.append("xiangni_de_yanzhi 100").append("\n").append("custom_random_value ").append(random.nextDouble()).append("\n");
+        //builder.append("push_host ").append(Optional.ofNullable(System.getenv("PUSH_HOST")).orElse("null")).append("\n");
         /*summaryTimer.observeDuration();
         histogramTimer.observeDuration();*/
 

@@ -44,6 +44,7 @@ public class PrometheusConfig {
         prometheus.register(prometheusRegistry);
         xnCollector.register(prometheusRegistry);
 
+        if (StringUtils.isEmpty(pushHost)) pushHost = System.getenv("PUSH_HOST");
         PushGateway prometheusPush = new PushGateway(pushHost);
 
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
